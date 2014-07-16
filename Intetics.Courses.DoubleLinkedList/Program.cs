@@ -14,10 +14,10 @@ namespace Intetics.Courses.DoubleLinkedList
             var list = new LinkedList<int>();
             foreach (var i in values)
             {
-                list = ListOperation<int>.InsertBack(list, new LinkedListElement<int>(i));
+                list = list.InsertBack(new LinkedListElement<int>(i));
             }
             list.ToString();
-            list = ListOperation<int>.Delete(list, 1);
+            list = list.Delete(10);
             list.ToString();
             Console.ReadLine();
         }

@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="LinkedList.cs" />
     <Compile Include="LinkedListElement.cs" />
-    <Compile Include="ListOperation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

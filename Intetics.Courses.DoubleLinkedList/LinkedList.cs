@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,18 @@ namespace Intetics.Courses.DoubleLinkedList
         public LinkedListElement<T> CurrentElement { get; set; }
         public LinkedListElement<T> HeadElement { get; set; }
         public LinkedListElement<T> TailElement { get; set; }
+
+        public LinkedListElement<T> this[int i]
+        {
+            get
+            {
+                if (i < 1 && i > Count)
+                {
+                    throw new ArgumentException();
+                }
+                return GetLinkedListElement(i);
+            }
+        } 
         
         public LinkedList()
         {
@@ -28,30 +41,163 @@ namespace Intetics.Courses.DoubleLinkedList
 
         public bool IsEmpty()
         {
-            if (this.Count == 0)
+            if (Count == 0)
+            {
                 return true;
+            }
             return false;
+        }
+
+        /// <summary>
+        /// Adding an element to the end of list
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public LinkedList<T> InsertBack(LinkedListElement<T> element)
+        {
+            return Join(this, InsertEmpty(element));
+        }
+
+        /// <summary>
+        /// Remove element by index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public LinkedList<T> Delete(int index)
+        {
+            if (index < 1 || index > Count)
+            {
+                throw new ArgumentException();
+            }
+            
+            if (IsEmpty())
+            {
+                throw new InvalidOperationException();
+            }
+
+            LinkedList<T> rightList;
+            var leftList = Split(this, index, out rightList);
+            leftList.TailElement = leftList.TailElement.PrevElement;
+            leftList.Count--;
+
+            if (rightList.IsEmpty())
+            {
+                leftList.TailElement.NextElement = null;
+                return leftList;
+            }
+            
+            return Join(leftList, rightList);
         }
 
         public override String ToString()
         {
-            if (this.HeadElement == null)
+            if (HeadElement == null)
             {
                 Console.WriteLine("Doubly Linked List is empty");
             }
             else
             {
-                Console.WriteLine(String.Format("Count element:{0}", this.Count));
-                this.CurrentElement = this.HeadElement;
-                int count = 1;
-                while (this.CurrentElement != null)
+                Console.WriteLine("Count element:{0}", Count);
+                for (int count = 1; count <= Count; count++)
                 {
-                    Console.WriteLine(String.Format("{0} : {1}{2}",count, this.CurrentElement.Item.ToString(), Environment.NewLine));
-                    count++;
-                    this.CurrentElement = this.CurrentElement.NextElement;
+                    Console.WriteLine("{0} : {1}{2}", count, this[count].Item, Environment.NewLine);
                 }
             }
             return String.Empty;
         }
+
+        #region Helper methods for working with lists
+        /// <summary>
+        /// Getting a list item by index
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        private LinkedListElement<T> GetLinkedListElement(int i)
+        {
+            int count = 1;
+            CurrentElement = HeadElement;
+            while (CurrentElement != null && count != i)
+            {
+                CurrentElement = CurrentElement.NextElement;
+                count++;
+            }
+            return CurrentElement;
+        }
+
+        /// <summary>
+        /// Inserting an element to an empty list
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        private static LinkedList<T> InsertEmpty(LinkedListElement<T> element)
+        {
+            var empty = new LinkedList<T>
+            {
+                Count = 1, 
+                HeadElement = element,
+                TailElement = element
+            };
+            return empty;
+        }
+
+        /// <summary>
+        /// Splitting the list at the specified index. Element to the index - in the left list
+        /// </summary>
+        /// <param name="leftList"></param>
+        /// <param name="index"></param>
+        /// <param name="rightList"></param>
+        /// <returns></returns>
+        private static LinkedList<T> Split(LinkedList<T> leftList, int index, out LinkedList<T> rightList)
+        {
+            rightList = new LinkedList<T>();
+            
+
+            if (index == leftList.Count)
+            {
+                return leftList;
+            }
+
+            var element = leftList[index];
+            rightList.Count = leftList.Count - index;
+            leftList.Count = index;
+            
+            if (element != null)
+            {
+                rightList.HeadElement = element.NextElement;
+                rightList.HeadElement.PrevElement = null;
+                rightList.TailElement = leftList.TailElement;
+                leftList.TailElement = element;
+            }
+
+            leftList.TailElement.NextElement = null;
+            return leftList;
+        }
+
+        /// <summary>
+        /// Merging two lists
+        /// </summary>
+        /// <param name="leftList"></param>
+        /// <param name="rightList"></param>
+        /// <returns></returns>
+        private static LinkedList<T> Join(LinkedList<T> leftList, LinkedList<T> rightList)
+        {
+            if (leftList.IsEmpty())
+            {
+                return rightList;
+            }
+            
+            if (rightList.IsEmpty())
+            {
+                return leftList;
+            }
+
+            leftList.Count += rightList.Count;
+            leftList.TailElement.NextElement = rightList.HeadElement;
+            rightList.HeadElement.PrevElement = leftList.TailElement;
+            leftList.TailElement = rightList.TailElement;
+            return leftList;
+        }
+
+        #endregion
     }
 }

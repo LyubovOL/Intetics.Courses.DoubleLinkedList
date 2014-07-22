@@ -12,7 +12,7 @@ namespace Intetics.Courses.DoubleLinkedList
     /// Description of the double linked list
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class LinkedList<T>
+    public class LinkedList<T> : IEnumerable<T>
     {
         public int Count { get; set; }
         public LinkedListElement<T> CurrentElement { get; set; }
@@ -87,23 +87,6 @@ namespace Intetics.Courses.DoubleLinkedList
             }
             
             return Join(leftList, rightList);
-        }
-
-        public override String ToString()
-        {
-            if (HeadElement == null)
-            {
-                Console.WriteLine("Doubly Linked List is empty");
-            }
-            else
-            {
-                Console.WriteLine("Count element:{0}", Count);
-                for (int count = 1; count <= Count; count++)
-                {
-                    Console.WriteLine("{0} : {1}{2}", count, this[count].Item, Environment.NewLine);
-                }
-            }
-            return String.Empty;
         }
 
         #region Helper methods for working with lists
@@ -199,5 +182,20 @@ namespace Intetics.Courses.DoubleLinkedList
         }
 
         #endregion
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            CurrentElement = HeadElement;
+            while (CurrentElement != null)
+            {
+                yield return CurrentElement.Item;
+                CurrentElement = CurrentElement.NextElement;
+            }
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

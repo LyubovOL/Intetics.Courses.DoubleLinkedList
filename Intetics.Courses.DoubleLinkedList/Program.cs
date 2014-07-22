@@ -16,9 +16,12 @@ namespace Intetics.Courses.DoubleLinkedList
             {
                 list = list.InsertBack(new LinkedListElement<int>(i));
             }
-            list.ToString();
             list = list.Delete(10);
-            list.ToString();
+            
+            foreach (var l in list)
+            {
+                Console.WriteLine(l);
+            }
             Console.ReadLine();
         }
     }

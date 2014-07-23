@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intetics.Courses.DoubleLinkedList", "Intetics.Courses.DoubleLinkedList\Intetics.Courses.DoubleLinkedList.csproj", "{41C38513-4D39-42F7-A28E-832023FF4458}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intetics.Courses.LinqToObjects.Entities", "..\..\Linq\LinqToObjects\Intetics.Courses.LinqToObjects\Entities\Intetics.Courses.LinqToObjects.Entities.csproj", "{EF591937-1E36-4A5A-872B-1842B6EE2C33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intetics.Courses.LinqToObjects.Entities", "Entities\Intetics.Courses.LinqToObjects.Entities.csproj", "{EF591937-1E36-4A5A-872B-1842B6EE2C33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -32,7 +32,6 @@ namespace Intetics.Courses.DoubleLinkedList
             }
         }
 
-
         public LinkedList()
         {
             Count = 0;
@@ -50,6 +49,10 @@ namespace Intetics.Courses.DoubleLinkedList
             return false;
         }
 
+        /// <summary>
+        /// Added new element 
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(T item)
         {
             InsertBack(new LinkedListElement<T>(item));
@@ -96,7 +99,55 @@ namespace Intetics.Courses.DoubleLinkedList
             return Join(leftList, rightList);
         }
 
+        /// <summary>
+        /// Sorted list
+        /// </summary>
+        /// <param name="comparer"></param>
+        public void Sort(IComparer<T> comparer)
+        {
+
+            for (var i = 0; i < Count - 1; i++)
+            {
+                CurrentElement = HeadElement;
+                for (var j = Count - 1; j > i; j--)
+                {
+                    if (comparer.Compare(CurrentElement.Item, CurrentElement.NextElement.Item) >= 0)
+                    {
+                        Swap(CurrentElement, CurrentElement.NextElement);
+                    }
+                    CurrentElement = CurrentElement.NextElement;
+                }
+            }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            CurrentElement = HeadElement;
+            while (CurrentElement != null)
+            {
+                yield return CurrentElement.Item;
+                CurrentElement = CurrentElement.NextElement;
+            }
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
         #region Helper methods for working with lists
+        /// <summary>
+        /// Swapping
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        private void Swap(LinkedListElement<T> left, LinkedListElement<T> right)
+        {
+            var temp = left.Item;
+            left.Item = right.Item;
+            right.Item = temp;
+        }
+
         /// <summary>
         /// Getting a list item by index
         /// </summary>
@@ -191,56 +242,5 @@ namespace Intetics.Courses.DoubleLinkedList
         }
 
         #endregion
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            CurrentElement = HeadElement;
-            while (CurrentElement != null)
-            {
-                yield return CurrentElement.Item;
-                CurrentElement = CurrentElement.NextElement;
-            }
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public void Sort(IComparer<T> comparer)
-        {
-            
-            for (var i = 0; i < Count - 1; i++)
-            {
-                var currentElement = HeadElement;
-                for (var j = Count - 1; j > i; j--)
-                {
-                    if (comparer.Compare(currentElement.Item, currentElement.NextElement.Item) >= 0)
-                    {
-                        Swap(currentElement, currentElement.NextElement);
-                    }
-                    currentElement = currentElement.NextElement;
-                }
-            }
-        }
-
-        private void Swap(LinkedListElement<T> left, LinkedListElement<T> right)
-        {
-            //CurrentElement.NextElement = CurrentElement.NextElement.NextElement;
-            //CurrentElement.NextElement.PrevElement = CurrentElement.PrevElement;
-            //CurrentElement.PrevElement = CurrentElement.NextElement;
-            //CurrentElement.NextElement = CurrentElement;
-
-            //var temp = left.PrevElement;
-            //left.PrevElement = right.PrevElement;
-            //right.PrevElement = temp;
-
-            //temp = left.NextElement;
-            //left.NextElement = right.NextElement;
-            //right.NextElement = temp;
-            var temp = left.Item;
-            left.Item = right.Item;
-            right.Item = temp;
-        }
     }
 }

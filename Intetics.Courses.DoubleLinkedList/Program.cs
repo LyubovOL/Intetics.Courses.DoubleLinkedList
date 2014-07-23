@@ -11,37 +11,41 @@ namespace Intetics.Courses.DoubleLinkedList
     {
         static void Main(string[] args)
         {
-            //var values = new[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-            //var list = new LinkedList<int>();
-            //foreach (var i in values)
-            //{
-            //    list = list.InsertBack(new LinkedListElement<int>(i));
-            //}
-            //list = list.Delete(10);
-            
-            //foreach (var l in list)
-            //{
-            //    Console.WriteLine(l);
-            //}
-            //Console.ReadLine();
-
-            var list = new LinkedList<Student>
+            var listPerson = new LinkedList<IPerson>
             {
-                new Student("1", "2", 3),
-                new Student("3", "4", 4), 
-                new Student("1", "7", 1)
+                new Student("Вася", "Иванов", 20),
+                new Student("Антон", "Сидоров", 24),
+                new Student("Никита", "Емельянов", 19),
+                new Student("Семен", "Поддубный", 18)
             };
 
-            foreach (var student in list)
+            foreach (var person in listPerson)
             {
-                Console.WriteLine(student);
+                Console.WriteLine(person);
             }
+            Console.WriteLine(Environment.NewLine);
 
-            list.Sort(new StudentComparerByAge());
+            listPerson.Sort(new SortedByAge<IPerson>());
 
-            foreach (var student in list)
+            foreach (var person in listPerson)
             {
-                Console.WriteLine(student);
+                Console.WriteLine(person);
+            }
+            Console.WriteLine(Environment.NewLine);
+
+            listPerson.Sort(new SortedByFirstName<IPerson>());
+
+            foreach (var person in listPerson)
+            {
+                Console.WriteLine(person);
+            }
+            Console.WriteLine(Environment.NewLine);
+
+            listPerson.Sort(new SortedByLastName<IPerson>());
+
+            foreach (var person in listPerson)
+            {
+                Console.WriteLine(person);
             }
 
             Console.ReadLine();

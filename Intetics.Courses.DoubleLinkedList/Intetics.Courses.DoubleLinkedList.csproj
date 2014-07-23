@@ -49,6 +49,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Linq\LinqToObjects\Intetics.Courses.LinqToObjects\Entities\Intetics.Courses.LinqToObjects.Entities.csproj">
+      <Project>{ef591937-1e36-4a5a-872b-1842b6ee2c33}</Project>
+      <Name>Intetics.Courses.LinqToObjects.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

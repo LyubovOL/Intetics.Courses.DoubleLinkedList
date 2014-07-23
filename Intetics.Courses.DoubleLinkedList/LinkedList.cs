@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,8 +30,9 @@ namespace Intetics.Courses.DoubleLinkedList
                 }
                 return GetLinkedListElement(i);
             }
-        } 
-        
+        }
+
+
         public LinkedList()
         {
             Count = 0;
@@ -46,6 +48,11 @@ namespace Intetics.Courses.DoubleLinkedList
                 return true;
             }
             return false;
+        }
+
+        public void Add(T item)
+        {
+            InsertBack(new LinkedListElement<T>(item));
         }
 
         /// <summary>
@@ -69,7 +76,7 @@ namespace Intetics.Courses.DoubleLinkedList
             {
                 throw new ArgumentException();
             }
-            
+
             if (IsEmpty())
             {
                 throw new InvalidOperationException();
@@ -85,7 +92,7 @@ namespace Intetics.Courses.DoubleLinkedList
                 leftList.TailElement.NextElement = null;
                 return leftList;
             }
-            
+
             return Join(leftList, rightList);
         }
 
@@ -116,7 +123,7 @@ namespace Intetics.Courses.DoubleLinkedList
         {
             var empty = new LinkedList<T>
             {
-                Count = 1, 
+                Count = 1,
                 HeadElement = element,
                 TailElement = element
             };
@@ -133,7 +140,6 @@ namespace Intetics.Courses.DoubleLinkedList
         private static LinkedList<T> Split(LinkedList<T> leftList, int index, out LinkedList<T> rightList)
         {
             rightList = new LinkedList<T>();
-            
 
             if (index == leftList.Count)
             {
@@ -143,7 +149,7 @@ namespace Intetics.Courses.DoubleLinkedList
             var element = leftList[index];
             rightList.Count = leftList.Count - index;
             leftList.Count = index;
-            
+
             if (element != null)
             {
                 rightList.HeadElement = element.NextElement;
@@ -166,9 +172,12 @@ namespace Intetics.Courses.DoubleLinkedList
         {
             if (leftList.IsEmpty())
             {
-                return rightList;
+                leftList.HeadElement = rightList.HeadElement;
+                leftList.TailElement = rightList.TailElement;
+                leftList.Count = rightList.Count;
+                return leftList;
             }
-            
+
             if (rightList.IsEmpty())
             {
                 return leftList;
@@ -196,6 +205,42 @@ namespace Intetics.Courses.DoubleLinkedList
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Sort(IComparer<T> comparer)
+        {
+            
+            for (var i = 0; i < Count - 1; i++)
+            {
+                var currentElement = HeadElement;
+                for (var j = Count - 1; j > i; j--)
+                {
+                    if (comparer.Compare(currentElement.Item, currentElement.NextElement.Item) >= 0)
+                    {
+                        Swap(currentElement, currentElement.NextElement);
+                    }
+                    currentElement = currentElement.NextElement;
+                }
+            }
+        }
+
+        private void Swap(LinkedListElement<T> left, LinkedListElement<T> right)
+        {
+            //CurrentElement.NextElement = CurrentElement.NextElement.NextElement;
+            //CurrentElement.NextElement.PrevElement = CurrentElement.PrevElement;
+            //CurrentElement.PrevElement = CurrentElement.NextElement;
+            //CurrentElement.NextElement = CurrentElement;
+
+            //var temp = left.PrevElement;
+            //left.PrevElement = right.PrevElement;
+            //right.PrevElement = temp;
+
+            //temp = left.NextElement;
+            //left.NextElement = right.NextElement;
+            //right.NextElement = temp;
+            var temp = left.Item;
+            left.Item = right.Item;
+            right.Item = temp;
         }
     }
 }

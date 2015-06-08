@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Intetics.Courses.DoubleLinkedList
+﻿namespace Intetics.Courses.DoubleLinkedList
 {
     /// <summary>
     /// Description of element double linked list

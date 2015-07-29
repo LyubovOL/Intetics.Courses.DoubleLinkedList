@@ -8,7 +8,7 @@
         public string LastName { get; set; }
         public int Age { get; set; }
 		
-
+		// new constructor
         public Student(string firstName, string lastName, int age)
         {
             this.FirstName = firstName;

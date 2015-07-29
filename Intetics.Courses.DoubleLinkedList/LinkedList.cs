@@ -3,10 +3,6 @@ using System.Collections.Generic;
 
 namespace Intetics.Courses.DoubleLinkedList
 {
-    /// <summary>
-    /// Description of the double linked list
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class LinkedList<T> : IEnumerable<T>
     {
         public int Count { get; set; }

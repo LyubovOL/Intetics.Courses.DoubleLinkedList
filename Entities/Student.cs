@@ -13,6 +13,13 @@
             this.Age = age;
         }
 
+	    public Student(string firstName, string lastName)
+	    {
+		    FirstName = firstName;
+		    LastName = lastName;
+		    Age = 20;
+	    }
+
         public override string ToString()
         {
             return string.Format("{0} {1} : {2}", FirstName, LastName, Age);
